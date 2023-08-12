@@ -69,3 +69,4 @@ migrations/ create a migratin file
 django_migrations table it maintains the record of migration file
 
 python3 manage.py createsuperuser
+python3 manage.py inspect db > models.txt 
