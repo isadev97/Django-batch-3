@@ -70,3 +70,19 @@ django_migrations table it maintains the record of migration file
 
 python3 manage.py createsuperuser
 python3 manage.py inspect db > models.txt 
+python3 manage.py shell 
+
+REPL
+R- READ
+E - Evaluate
+P - Print
+L - Loop
+
+Django Models   ORM    DB
+
+python way of writing sql queries this is independent of DB engine 
+
+A queryset is an array of objects 
+
+
+
