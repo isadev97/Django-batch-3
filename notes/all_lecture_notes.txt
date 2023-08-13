@@ -203,5 +203,27 @@ SELECT "persons_app_person"."id", "persons_app_person"."name", "persons_app_pers
 SELECT "persons_app_person"."id", "persons_app_person"."name", "persons_app_person"."age" FROM "persons_app_person" WHERE ("persons_app_person"."age" >= 20 AND "persons_app_person"."name" LIKE %ish% ESCAPE '\')
 >>> 
 
+Aug 13, 2023 Sunday 
+JSON - javascript object notation
 
 
+
+JSON stands for JavaScript Object Notation
+
+JSON is a lightweight format for storing and transporting data
+
+JSON is often used when data is sent from a server to a web page
+
+JSON is "self-describing" and easy to understand
+
+for key in object you have a value 
+
+Json object => {
+  "name": "Ishjot",
+  "age": 25,
+  "profile": "SDE",
+  "location": {
+    "country": "India",
+    "city": "Delhi"
+  }
+}

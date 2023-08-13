@@ -1,16 +1,27 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 
 def index(request):
-    return HttpResponse("index")
+    html = """ 
+    <h1>Hello world this an html response</h1>
+    <p>Bye</p>
+    """
+    return HttpResponse(html)
 
 def bye(request):
-    return HttpResponse("bye")
+    a = {
+        "title" : "hello",
+        "description" : "world"
+    }
+    return JsonResponse(a)
 
 def hello(request):
-    return HttpResponse("hello")
+    page_name = "temp.html"
+    return render(request, page_name)
+
+
 
 
 
