@@ -227,3 +227,66 @@ Json object => {
     "city": "Delhi"
   }
 }
+
+^C(project_env) administrator@GFG19213-LAPTOP:~/Desktop/batch3$ python3 manage.py shell
+Python 3.8.10 (default, May 26 2023, 14:05:08) 
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from todo_app.models import Person
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ImportError: cannot import name 'Person' from 'todo_app.models' (/home/administrator/Desktop/batch3/todo_app/models.py)
+>>> from todo_app.models import Todo
+>>> Todo
+<class 'todo_app.models.Todo'>
+>>> qs = Todo.objects.all()
+>>> qs
+<QuerySet [<Todo: Todo object (1)>, <Todo: Todo object (2)>, <Todo: Todo object (3)>, <Todo: Todo object (4)>, <Todo: Todo object (5)>]>
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo"
+>>> qs = Todo.objects.filter(id__gte=4)
+>>> qs
+<QuerySet [<Todo: Todo object (4)>, <Todo: Todo object (5)>]>
+>>> qs = Todo.objects.filter(id__lte=4)
+>>> qs
+<QuerySet [<Todo: Todo object (1)>, <Todo: Todo object (2)>, <Todo: Todo object (3)>, <Todo: Todo object (4)>]>
+>>> qs = Todo.objects.filter(title__icontains="react")
+>>> qs
+<QuerySet [<Todo: Todo object (2)>]>
+>>> a = 1
+>>> print(a)
+1
+>>> todo = Todo.objects.last()
+>>> todo.title
+'Learn Mysql'
+>>> todo.id
+5
+>>> todo.__dict__
+{'_state': <django.db.models.base.ModelState object at 0x7f5be81b0be0>, 'id': 5, 'title': 'Learn Mysql', 'completed': False, 'created_at': datetime.datetime(2023, 8, 13, 14, 47, 37, 680665, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2023, 8, 13, 14, 47, 37, 680694, tzinfo=datetime.timezone.utc)}
+>>> Todo.objects.create(title="hello")
+<Todo: Todo object (6)>
+
+Python 3.8.10 (default, May 26 2023, 14:05:08) 
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from todo_app.models import Todo
+>>> Todo.objects.get(id=1)
+<Todo: Todo object (1)>
+>>> todo
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'todo' is not defined
+>>> todo = Todo.objects.get(id=1)
+>>> todo
+<Todo: Todo object (1)>
+>>> todo.completed = False
+>>> todo.save()
+>>> Todo.objects.create(title="mouse")
+<Todo: Todo object (8)>
+>>> todo
+<Todo: Todo object (1)>
+>>> todo.delete()
+(1, {'todo_app.Todo': 1})
+>>> 
