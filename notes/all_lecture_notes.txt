@@ -290,3 +290,11 @@ NameError: name 'todo' is not defined
 >>> todo.delete()
 (1, {'todo_app.Todo': 1})
 >>> 
+
+READ THE DATA 
+
+
+
+DATA -
+READ OPERATIONS OF DB - GET
+WRITE OPERATIONS OF DB - POST

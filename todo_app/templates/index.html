@@ -12,13 +12,28 @@
   </head>
   <body>
     <h1>Todo App</h1>
+    <form method="POST" action="{% url 'add_todo' %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="todoInput" class="form-label">Add your Todo !</label>
+        <input type="text" class="form-control" id="todoInput" name="todoInput" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
     <hr> 
     <h1>Todo List</h1>
-    <ul>
+    <ul class="list-group">
       {% for todo in todos  %}
-        <li>{{todo.title}}</li>
-      {% endfor %}
+        <li class="list-group-item {% if todo.completed %} list-group-item-success {% else %} list-group-item-danger {% endif %}" style="display: flex; justify-content: space-between;">
+          {{todo.title}}
+          <form method="GET" action="{% url 'todo_delete' todo.id %}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </li>
+      
+        {% endfor %}
     </ul>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
