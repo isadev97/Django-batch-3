@@ -33,11 +33,12 @@ def delete_view(request, todo_id):
         except Todo.DoesNotExist:
             return HttpResponse("Error Todo not found")
 
-def mark_view(request, todo_id):
-    if request.method == "POST":
+def mark_view(request):
+    if request.method == "GET":
         return HttpResponse("Invalid method")
     else:
         try:
+            todo_id = request.POST['todo_id']
             todo_object = Todo.objects.get(id=todo_id)
             todo_object.completed = True
             todo_object.save()

@@ -30,14 +30,16 @@
             <form method="GET" action="{% url 'todo_delete' todo.id %}">
               <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
+            {% comment %} <a href="/todos/delete-todo/{{todo.id}}" class="btn btn-danger">Delete</a> {% endcomment %}
             {% if todo.completed == False %}
-            <form method="GET" action="{% url 'todo_mark' todo.id %}">
+            <form method="POST" action="{% url 'todo_mark' %}">
+              {% csrf_token %}
+              <input type="hidden" name="todo_id" value="{{todo.id}}" />
               <button type="submit" class="btn btn-sm btn-warning">Mark as completed</button>
             </form>
             {% endif %}
 
           </div>
-            {% comment %} <a href="/todos/delete-todo/{{todo.id}}" class="btn btn-danger">Delete</a> {% endcomment %}
 
         </li>
       
