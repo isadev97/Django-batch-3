@@ -12,7 +12,7 @@
   </head>
   <body>
     <h1>Todo App</h1>
-    <form method="POST" action="{% url 'add_todo' %}">
+    <form method="POST" action="{% url 'add_todo' %}" autocomplete="off">
       {% csrf_token %}
       <div class="mb-3">
         <label for="todoInput" class="form-label">Add your Todo !</label>
@@ -26,9 +26,19 @@
       {% for todo in todos  %}
         <li class="list-group-item {% if todo.completed %} list-group-item-success {% else %} list-group-item-danger {% endif %}" style="display: flex; justify-content: space-between;">
           {{todo.title}}
-          <form method="GET" action="{% url 'todo_delete' todo.id %}">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          <div>
+            <form method="GET" action="{% url 'todo_delete' todo.id %}">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            {% if todo.completed == False %}
+            <form method="GET" action="{% url 'todo_mark' todo.id %}">
+              <button type="submit" class="btn btn-sm btn-warning">Mark as completed</button>
+            </form>
+            {% endif %}
+
+          </div>
+            {% comment %} <a href="/todos/delete-todo/{{todo.id}}" class="btn btn-danger">Delete</a> {% endcomment %}
+
         </li>
       
         {% endfor %}
