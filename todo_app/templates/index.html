@@ -12,11 +12,19 @@
   </head>
   <body>
     <h1>Todo App</h1>
+    <a href="/todos/?completed=1" class="btn btn-success">Show completed todos</a>
+    <a href="/todos/?completed=0" class="btn btn-warning">Show incompleted todos</a>
+    <a href="/todos/?order=0" class="btn btn-info">Order by date oldest</a>
+    <a href="/todos/?order=1" class="btn btn-dark">Order by date latest</a>
+    <form method="GET" action="{% url 'todo_index' %}">
+        <input type="text" class="form-control" id="todoSearch" name="todoSearch" required placeholder="Search your todos">
+        <button type="submit" class="btn btn-secondary">Search</button>
+    </form>
     <form method="POST" action="{% url 'add_todo' %}" autocomplete="off">
       {% csrf_token %}
       <div class="mb-3">
         <label for="todoInput" class="form-label">Add your Todo !</label>
-        <input type="text" class="form-control" id="todoInput" name="todoInput" required>
+        <input type="text" class="form-control" id="todoInput" name="todoInput" required />
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -25,7 +33,9 @@
     <ul class="list-group">
       {% for todo in todos  %}
         <li class="list-group-item {% if todo.completed %} list-group-item-success {% else %} list-group-item-danger {% endif %}" style="display: flex; justify-content: space-between;">
-          {{todo.title}}
+          {{todo.title}} 
+          <br>
+          <span class="badge rounded-pill bg-light text-dark">{{todo.created_at}}</span>
           <div>
             <form method="GET" action="{% url 'todo_delete' todo.id %}">
               <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -35,10 +45,9 @@
             <form method="POST" action="{% url 'todo_mark' %}">
               {% csrf_token %}
               <input type="hidden" name="todo_id" value="{{todo.id}}" />
-              <button type="submit" class="btn btn-sm btn-warning">Mark as completed</button>
+              <button type="submit" class="btn btn-sm btn-secondary">Mark as completed</button>
             </form>
             {% endif %}
-
           </div>
 
         </li>

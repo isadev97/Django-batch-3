@@ -298,3 +298,95 @@ READ THE DATA
 DATA -
 READ OPERATIONS OF DB - GET
 WRITE OPERATIONS OF DB - POST
+
+
+Python 3.8.10 (default, May 26 2023, 14:05:08) 
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from todo_app.models import Todo
+>>> Todo.objects.all().order_by('created_at')
+<QuerySet [<Todo: Todo object (21)>, <Todo: Todo object (22)>, <Todo: Todo object (23)>, <Todo: Todo object (24)>, <Todo: Todo object (25)>]>
+>>> Todo.objects.all().order_by('-created_at')
+<QuerySet [<Todo: Todo object (25)>, <Todo: Todo object (24)>, <Todo: Todo object (23)>, <Todo: Todo object (22)>, <Todo: Todo object (21)>]>
+>>> dummy = 'created_at'
+>>> Todo.objects.all().order_by(dummy)
+<QuerySet [<Todo: Todo object (21)>, <Todo: Todo object (22)>, <Todo: Todo object (23)>, <Todo: Todo object (24)>, <Todo: Todo object (25)>]>
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> Todo.objects.filter(title="Hello")
+<QuerySet []>
+>>> qs = Todo.objects.filter(title="Hello")
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE "todo_app_todo"."title" = Hello
+>>> qs = Todo.objects.filter(title__contains="Hello")
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE "todo_app_todo"."title" LIKE %Hello% ESCAPE '\'
+>>> qs = Todo.objects.filter(title__startswith="a").filter(title__endswith="t")
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE ("todo_app_todo"."title" LIKE a% ESCAPE '\' AND "todo_app_todo"."title" LIKE %t ESCAPE '\')
+>>> from django.db.models import Q
+>>> qs = Todo.objects.filter(Q(title__startswith="a") | Q(title__endswith="t"))
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE ("todo_app_todo"."title" LIKE a% ESCAPE '\' OR "todo_app_todo"."title" LIKE %t ESCAPE '\')
+>>> qs = Todo.objects.filter(Q(title__startswith="a") & Q(title__endswith="t"))
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE ("todo_app_todo"."title" LIKE a% ESCAPE '\' AND "todo_app_todo"."title" LIKE %t ESCAPE '\')
+>>> qs = Todo.objects.filter(~Q(id=1))
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE NOT ("todo_app_todo"."id" = 1)
+>>> qs = Todo.objects.filter(~Q(id__in[1,2,3]))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'id__in' is not defined
+>>> qs = Todo.objects.filter(id__in=[1,2,3])
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE "todo_app_todo"."id" IN (1, 2, 3)
+>>> qs = Todo.objects.filter(~Q(id__in=[1,2,3]))
+>>> print(qs.query)
+SELECT "todo_app_todo"."id", "todo_app_todo"."title", "todo_app_todo"."completed", "todo_app_todo"."created_at", "todo_app_todo"."updated_at" FROM "todo_app_todo" WHERE NOT ("todo_app_todo"."id" IN (1, 2, 3))
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> qs = QS1 | QS2
+union of two querysets
+>>> qs = QS1 & QS2
+intersection of two querysets
+
+>>> qs1
+<QuerySet [<Todo: Todo object (21)>, <Todo: Todo object (22)>, <Todo: Todo object (23)>]>
+>>> qs2
+<QuerySet [<Todo: Todo object (23)>, <Todo: Todo object (24)>, <Todo: Todo object (25)>]>
+>>> union = qs1 | qs2
+>>> union
+<QuerySet [<Todo: Todo object (21)>, <Todo: Todo object (22)>, <Todo: Todo object (23)>, <Todo: Todo object (24)>, <Todo: Todo object (25)>]>
+>>> intersection = qs1 & qs2
+>>> intersection
+<QuerySet [<Todo: Todo object (23)>]>
